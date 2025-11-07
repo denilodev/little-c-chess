@@ -35,7 +35,7 @@
 #define WHITE_FRONT_ROW "PPPPPPPP"
 #define WHITE_BACK_ROW  "RNBQKBNR"
 
-void InitializeBoard();
+void ResetBoard();
 void PrintBoard();
 
 #endif
