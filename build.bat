@@ -1,0 +1,1 @@
+gcc chess.c board.c -o chess
