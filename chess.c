@@ -10,7 +10,7 @@ int main()
     bool isRunning = true;
     while(isRunning)
     {
-        PrintBoard();
+        DrawBoard();
         // wait for input
         // check if input is valid
             // if not, say it and ask again

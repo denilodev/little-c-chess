@@ -35,7 +35,7 @@ void ResetBoard()
     }
 }
 
-void PrintBoard()
+void DrawBoard()
 {
     printf("%s", LETTERS_ROW);  // print the letters above the board
     printf("%s", LINE_ROW);     // print first line

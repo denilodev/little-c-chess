@@ -36,6 +36,6 @@
 // #define WHITE_BACK_ROW  "RNBQKBNR"
 
 void ResetBoard();
-void PrintBoard();
+void DrawBoard();
 
 #endif
