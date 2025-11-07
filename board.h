@@ -25,15 +25,15 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#define EIGHT           8
-
+#define EIGHT           8   // no magic numbers (what if I want to
+                            // change the size of the board one day?)
 #define LETTERS_ROW     "    A   B   C   D   E   F   G   H\n"
 #define LINE_ROW        "  |-------------------------------|\n"
 #define BLANK           ' '
-#define BLACK_BACK_ROW  "rnbqkbnr"
-#define BLACK_FRONT_ROW "pppppppp"
-#define WHITE_FRONT_ROW "PPPPPPPP"
-#define WHITE_BACK_ROW  "RNBQKBNR"
+// #define BLACK_BACK_ROW  "rnbqkbnr"
+// #define BLACK_FRONT_ROW "pppppppp"
+// #define WHITE_FRONT_ROW "PPPPPPPP"
+// #define WHITE_BACK_ROW  "RNBQKBNR"
 
 void ResetBoard();
 void PrintBoard();
