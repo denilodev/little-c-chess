@@ -1,28 +1,33 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdint.h>
 #include "board.h"
+#include "game.h"
+#include "input.h"
+
+void Debug()
+{
+    TILE fromThis = GetTileAddress("e2");
+    TILE toThis = GetTileAddress("e4");
+    MovePiece(fromThis, toThis);
+    DrawBoard();
+}
 
 int main()
 {
-    ResetBoard();
-
-    bool isRunning = true;
+    StartGame();
+    
     while(isRunning)
     {
         DrawBoard();
-        // wait for input
-        // check if input is valid
-            // if not, say it and ask again
-        // check if move is valid
-            // if not, say it and ask again
-        // make the move
-        // if check mate
-            //print endgame
-            //ask if want to replay or close the game
-            //if close
-            //
-            isRunning = false;
+        GetInput();
+        MakeMove();
+        CheckGameConditions();
+        if (isGameOver)
+        {
+            DrawGameOver();
+            GameOverInput();
+        }
+        //Debug();
     }
     return 0;
 }

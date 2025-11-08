@@ -1,1 +1,1 @@
-gcc chess.c board.c -o chess
+gcc chess.c board.c game.c input.c -o chess

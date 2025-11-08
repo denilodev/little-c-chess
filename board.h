@@ -2,21 +2,21 @@
 
     A   B   C   D   E   F   G   H
   |-------------------------------|
-1 | r | n | b | q | k | b | n | r |
+8 | r | n | b | q | k | b | n | r |
   |-------------------------------|
-2 | p | p | p | p | p | p | p | p |
-  |-------------------------------|
-3 |   |   |   |   |   |   |   |   |
-  |-------------------------------|
-4 |   |   |   |   |   |   |   |   |
-  |-------------------------------|
-5 |   |   |   |   |   |   |   |   |
+7 | p | p | p | p | p | p | p | p |
   |-------------------------------|
 6 |   |   |   |   |   |   |   |   |
   |-------------------------------|
-7 | P | P | P | P | P | P | P | P |
+5 |   |   |   |   |   |   |   |   |
   |-------------------------------|
-8 | R | N | B | Q | K | B | N | R |
+4 |   |   |   |   |   |   |   |   |
+  |-------------------------------|
+3 |   |   |   |   |   |   |   |   |
+  |-------------------------------|
+2 | P | P | P | P | P | P | P | P |
+  |-------------------------------|
+1 | R | N | B | Q | K | B | N | R |
   |-------------------------------|
 
   Turn: WHITE
@@ -25,17 +25,29 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "game.h"
+
+#ifndef TILE
+#define TILE            char*
+#endif
 #define EIGHT           8   // no magic numbers (what if I want to
                             // change the size of the board one day?)
 #define LETTERS_ROW     "    A   B   C   D   E   F   G   H\n"
 #define LINE_ROW        "  |-------------------------------|\n"
 #define BLANK           ' '
-// #define BLACK_BACK_ROW  "rnbqkbnr"
-// #define BLACK_FRONT_ROW "pppppppp"
-// #define WHITE_FRONT_ROW "PPPPPPPP"
-// #define WHITE_BACK_ROW  "RNBQKBNR"
 
-void ResetBoard();
+extern char BLACK_BACK_ROW[EIGHT];   // Forsyth-Edwards Notation
+extern char BLACK_FRONT_ROW[EIGHT];
+extern char WHITE_FRONT_ROW[EIGHT];
+extern char WHITE_BACK_ROW[EIGHT];
+extern char board[EIGHT][EIGHT];
+
 void DrawBoard();
+void DrawGame();
+void DrawGameOver();
+TILE GetTileAddress(char [3]);
+void ClearScreen();
 
 #endif
