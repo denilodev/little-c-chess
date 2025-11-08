@@ -6,8 +6,8 @@
 
 void Debug()
 {
-    TILE fromThis = GetTileAddress("e2");
-    TILE toThis = GetTileAddress("e4");
+    TILE fromThis = GetTileAddress('e','2');
+    TILE toThis = GetTileAddress('e','4');
     MovePiece(fromThis, toThis);
     DrawBoard();
 }

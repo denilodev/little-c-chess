@@ -8,15 +8,20 @@
 #ifndef TILE
 #define TILE            char*
 #endif
+#define WHITE_PLAYER    'W'
+#define BLACK_PLAYER    'b'
 
 extern bool isRunning;
 extern bool isWhiteTurn;
 extern bool isGameOver;
+extern char lastCapturedPiece;
+extern char winner;
 
 void ResetBoard();
 void StartGame();
 void MakeMove();
 void CheckGameConditions();
 void MovePiece(TILE, TILE);
+void ChangeTurn();
 
 #endif

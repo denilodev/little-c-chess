@@ -3,6 +3,8 @@
 bool isRunning = true;
 bool isWhiteTurn;
 bool isGameOver;
+char lastCapturedPiece;
+char winner;
 
 void ResetBoard()
 {
@@ -34,6 +36,7 @@ void ResetBoard()
 
 void MovePiece(TILE from, TILE to)
 {
+    if (*to != BLANK) lastCapturedPiece = *to;
     *to = *from;
     *from = BLANK;
 }
@@ -43,26 +46,32 @@ void StartGame()
     ResetBoard();
     isWhiteTurn = true;
     isGameOver = false;
+    lastCapturedPiece = BLANK;
+    winner = BLANK;
 
 }
 
 void MakeMove()
-{
-    char sFrom[3] = {input[0], input[1], '\n'};
-    char sTo[3] = {input[2], input[3], '\n'};
-    TILE tileFrom = GetTileAddress(sFrom);
-    TILE tileTo = GetTileAddress(sTo);
-    
+{    
     MovePiece(tileFrom, tileTo);
-    ClearInputBuffer();
+    ChangeTurn();
 }
 
 void CheckGameConditions()
 {
-
+    if (lastCapturedPiece == 'K')
+    {
+        winner = BLACK_PLAYER;
+        isGameOver = true;
+    }
+    else if (lastCapturedPiece == 'k')
+    {
+        winner = WHITE_PLAYER;
+        isGameOver = true;
+    }
 }
 
-bool IsGameOver()
+void ChangeTurn()
 {
-    return true;
+    isWhiteTurn = !isWhiteTurn;
 }

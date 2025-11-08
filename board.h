@@ -47,7 +47,7 @@ extern char board[EIGHT][EIGHT];
 void DrawBoard();
 void DrawGame();
 void DrawGameOver();
-TILE GetTileAddress(char [3]);
+TILE GetTileAddress(char, char);
 void ClearScreen();
 
 #endif

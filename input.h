@@ -3,11 +3,17 @@
 
 #include "game.h"
 
-#define BUFFER_SIZE 5
-extern char input[BUFFER_SIZE];
+#define INPUT_SIZE      5
+#define ERROR_MSG_SIZE  255
+extern char input[INPUT_SIZE];
+extern char *errorInputMessage;
+extern char *tileFrom;
+extern char *tileTo;
 
 void GetInput();
 void GameOverInput();
-void ClearInputBuffer();
+void ClearString();
+void ValidateInput();
+bool IsCharUpper(char);
 
 #endif

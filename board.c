@@ -25,14 +25,13 @@ void DrawBoard()
 
 void DrawGameOver()
 {
-
+  DrawBoard();
+  printf("Winner is %s Player!", winner==WHITE_PLAYER?"White":"Black");
 }
 
-TILE GetTileAddress(char tileName[3])
+TILE GetTileAddress(char file, char rank)
 {
-  char file = tileName[0];
-  char rank = tileName[1];
-  if (file >= 'A' && file <= 'H') file += 32; // turning into lowercase (32 because is 'a'-'A')
+  if (IsCharUpper(file)) file += ('a'-'A');     // turning into lowercase
   if (file < 'a' || file > 'h') return NULL;  // valid check
   rank -= '0';                                // turning the numeric char in its respective int
   if (rank < 1 || rank > EIGHT) return NULL;  // valid check
