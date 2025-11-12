@@ -31,7 +31,7 @@ void DrawGameOver()
 
 TILE GetTileAddress(char file, char rank)
 {
-  if (IsCharUpper(file)) file += ('a'-'A');     // turning into lowercase
+  if (IsCharUpper(file)) file += ('a'-'A');   // turning into lowercase
   if (file < 'a' || file > 'h') return NULL;  // valid check
   rank -= '0';                                // turning the numeric char in its respective int
   if (rank < 1 || rank > EIGHT) return NULL;  // valid check
@@ -43,28 +43,3 @@ void ClearScreen()
 {
   system("cls");
 }
-
-/*
-
-    A   B   C   D   E   F   G   H           // "LETTERS_ROW"
-  |-------------------------------|         // "LINE_ROW"
-8 | r | n | b | q | k | b | n | r |
-  |-------------------------------|
-7 | p | p | p | p | p | p | p | p |
-  |-------------------------------|
-6 |   |   |   |   |   |   |   |   |
-  |-------------------------------|
-5 |   |   |   |   |   |   |   |   |
-  |-------------------------------|
-4 |   |   |   |   |   |   |   |   |
-  |-------------------------------|
-3 |   |   |   |   |   |   |   |   |
-  |-------------------------------|
-2 | P | P | P | P | P | P | P | P |
-  |-------------------------------|
-1 | R | N | B | Q | K | B | N | R |
-  |-------------------------------|
-
-  Turn: WHITE                               // soon
-  Type your move:                           // soon
-*/

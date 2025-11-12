@@ -64,11 +64,17 @@ void ValidateInput()
         return;
     }
     tileTo = GetTileAddress(input[2], input[3]);
-    if ((IsCharUpper(*tileTo) && isWhiteTurn) || (!IsCharUpper(*tileTo) && !isWhiteTurn))
+    if ((IsCharUpper(*tileTo) && isWhiteTurn) || ((!IsCharUpper(*tileTo) && *tileTo != BLANK) && !isWhiteTurn))
     {
         errorInputMessage = "Can't capture your own pieces. Try again: ";
         return;
     }
+    if (!CheckMoveLegality())
+    {
+        errorInputMessage = "Ilegal move. Try again: ";
+        return;
+    }
+    //printf("From:%c\n", *tileFrom);
     errorInputMessage = none;
 }
 

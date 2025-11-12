@@ -23,5 +23,6 @@ void MakeMove();
 void CheckGameConditions();
 void MovePiece(TILE, TILE);
 void ChangeTurn();
+bool CheckMoveLegality();
 
 #endif

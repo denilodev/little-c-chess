@@ -75,3 +75,36 @@ void ChangeTurn()
 {
     isWhiteTurn = !isWhiteTurn;
 }
+
+bool CheckMoveLegality()
+{
+    switch (*tileFrom)
+    {
+    case 'p':
+    case 'P':
+        // Check if is a legal pawn move
+        return true;
+    case 'r':
+    case 'R':
+        // Check if is a legal rook move
+        return true;
+    case 'n':
+    case 'N':
+        // Check if is a legal knight move
+        return true;
+    case 'b':
+    case 'B':
+        // Check if is a legal bishop move
+        return true;
+    case 'q':
+    case 'Q':
+        // Check if is a legal queen move
+        return true;
+    case 'k':
+    case 'K':
+        // Check if is a legal king move
+        return true;
+    default:
+        return false;
+    }
+}
