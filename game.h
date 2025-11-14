@@ -16,6 +16,8 @@ extern bool isWhiteTurn;
 extern bool isGameOver;
 extern char lastCapturedPiece;
 extern char winner;
+extern TILE whiteCanEnPassantHere;
+extern TILE blackCanEnPassantHere;
 
 void ResetBoard();
 void StartGame();

@@ -1,7 +1,7 @@
 #include "input.h"
 
 char input[INPUT_SIZE];
-static char *none = "";
+char *none = "";
 char *errorInputMessage;
 TILE tileFrom;
 TILE tileTo;
@@ -52,6 +52,11 @@ void ValidateInput()
         errorInputMessage = "Invalid Input. Try again: ";
         return;
     }
+    if ((input[0] == input[2]) && (input[1] == input[3]))
+    {
+        errorInputMessage = "You're already there. Try again: ";
+        return;
+    }
     tileFrom = GetTileAddress(input[0], input[1]);
     if (*tileFrom == BLANK)
     {
@@ -76,6 +81,8 @@ void ValidateInput()
     }
     //printf("From:%c\n", *tileFrom);
     errorInputMessage = none;
+    if (isWhiteTurn)    whiteCanEnPassantHere = tileTo;
+    else                blackCanEnPassantHere = tileTo;
 }
 
 bool IsCharUpper(char c)

@@ -5,6 +5,8 @@ bool isWhiteTurn;
 bool isGameOver;
 char lastCapturedPiece;
 char winner;
+TILE whiteCanEnPassantHere;
+TILE blackCanEnPassantHere;
 
 void ResetBoard()
 {
@@ -12,7 +14,7 @@ void ResetBoard()
     {
         for(int y = 0; y < EIGHT; y++)
         {               // the idea here is to populate the tiles based on each
-            switch (x)  // character of the "...ROW" strings (those four above) 
+            switch (x)  // character of the "-ROW" strings
             {
             case 0:         // tiles of first row
                 board[x][y] = BLACK_BACK_ROW[y];
@@ -78,14 +80,172 @@ void ChangeTurn()
 
 bool CheckMoveLegality()
 {
+    int fileFrom = IsCharUpper(input[0]) ? input[0] + ('a'-'A') : input[0]; // letter
+    int rankFrom = input[1];    // number
+    int fileTo   = IsCharUpper(input[2]) ? input[2] + ('a'-'A') : input[2]; // letter
+    int rankTo   = input[3];    // number
+    bool isDoubleMovement = false;                              // for first pawn move
     switch (*tileFrom)
     {
     case 'p':
+        if (rankFrom == '7')
+        {
+            if (rankTo < '5') return false;                     // double movement check
+            isDoubleMovement = true;
+        }
+        else if ((rankFrom - 1) != rankTo) return false;        // just one step bro
+
+        if ((fileFrom != fileTo))                               // check file
+        {
+            if (fileFrom > fileTo)
+            {
+                if((fileFrom - 1) != fileTo) return false;      // too much to the left
+            }
+            else
+            {
+                if((fileTo - 1) != fileFrom) return false;      // too much to the right
+            }
+            if (*tileTo == BLANK)
+            {
+                if (tileTo == blackCanEnPassantHere)
+                {
+                    TILE deadPawn = GetTileAddress(input[2], input[3]+1);
+                    *tileTo = *deadPawn;
+                    *deadPawn = BLANK;
+                }
+                else return false;                              // can't capture the nothingness
+            }
+        }
+        // else if (*tileTo != BLANK) return false;                // can't capture forward
+        // PAWN PROMOTION
+        if (rankTo == '1')
+        {
+            char promotionPiece = BLANK;
+            bool canPromote = false;
+            errorInputMessage = none;
+            do
+            {
+                if(errorInputMessage != none)
+                    printf("%s", errorInputMessage);
+                else printf("Which piece will your pawn promote to? (q, r, b, n): ");
+                promotionPiece = getchar();
+                if (promotionPiece == '\n') promotionPiece = getchar();
+
+                if (IsCharUpper(promotionPiece)) promotionPiece += ('a'-'A');   // turning into lowercase
+                switch (promotionPiece)
+                {
+                case 'q':
+                    *tileFrom = 'q';
+                    canPromote = true;
+                    break;
+                case 'r':
+                    *tileFrom = 'r';
+                    canPromote = true;
+                    break;
+                case 'b':
+                    *tileFrom = 'b';
+                    canPromote = true;
+                    break;
+                case 'n':
+                    *tileFrom = 'n';
+                    canPromote = true;
+                    break;
+                default:
+                    break;
+                }
+            } while (!canPromote);
+        }
+
+        if (isDoubleMovement)   whiteCanEnPassantHere = GetTileAddress(input[2], input[3]+1);
+        else                    whiteCanEnPassantHere = NULL;
+        return true;
     case 'P':
-        // Check if is a legal pawn move
+        if (rankFrom == '2')
+        {
+            if (rankTo > '4') return false;
+            isDoubleMovement = true;
+        }
+        else if ((rankFrom + 1) != rankTo) return false;
+
+        if (fileFrom != fileTo)                                 // check file
+        {
+            if (fileFrom > fileTo)
+            {
+                if((fileFrom - 1) != fileTo) return false;      // too much to the left
+            }
+            else
+            {
+                if((fileTo - 1) != fileFrom) return false;      // too much to the right
+            }
+            if (*tileTo == BLANK)
+            {
+                if (tileTo == whiteCanEnPassantHere)
+                {
+                    TILE deadPawn = GetTileAddress(input[2], input[3]-1);
+                    *tileTo = *deadPawn;
+                    *deadPawn = BLANK;
+                }
+                else return false;                              // can't capture the nothingness
+            }
+        }
+        // else if (*tileTo != BLANK) return false;                // can't capture forward
+        // PAWN PROMOTION
+        if (rankTo == '8')
+        {
+            char promotionPiece = BLANK;
+            bool canPromote = false;
+            errorInputMessage = none;
+            do
+            {
+                if(errorInputMessage != none)
+                    printf("%s", errorInputMessage);
+                else printf("Which piece will your pawn promote to? (q, r, b, n): ");
+                promotionPiece = getchar();
+                if (promotionPiece == '\n') promotionPiece = getchar();
+
+                if (IsCharUpper(promotionPiece)) promotionPiece += ('a'-'A');   // turning into lowercase
+                switch (promotionPiece)
+                {
+                case 'q':
+                    *tileFrom = 'Q';
+                    canPromote = true;
+                    break;
+                case 'r':
+                    *tileFrom = 'R';
+                    canPromote = true;
+                    break;
+                case 'b':
+                    *tileFrom = 'B';
+                    canPromote = true;
+                    break;
+                case 'n':
+                    *tileFrom = 'N';
+                    canPromote = true;
+                    break;
+                default:
+                    break;
+                }
+            } while (!canPromote);
+        }
+
+        if (isDoubleMovement)   blackCanEnPassantHere = GetTileAddress(input[2], input[3]-1);
+        else                    blackCanEnPassantHere = NULL;
         return true;
     case 'r':
     case 'R':
+        if (fileFrom != fileTo)
+        {
+            if (rankFrom != rankTo) return false;
+            if (fileFrom > fileTo)
+            {
+                for (int i = 1; i <= (fileFrom - fileTo - 1); i++)
+                {
+                    if (*GetTileAddress(fileFrom-i, rankTo) != BLANK) return false;
+                }
+
+            }
+            
+        }
         // Check if is a legal rook move
         return true;
     case 'n':
