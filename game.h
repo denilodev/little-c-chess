@@ -26,5 +26,7 @@ void CheckGameConditions();
 void MovePiece(TILE, TILE);
 void ChangeTurn();
 bool CheckMoveLegality();
+bool IsValidRookMovement(int, int, int, int);
+bool IsValidBishopMovement(int, int, int, int);
 
 #endif

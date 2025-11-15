@@ -233,42 +233,7 @@ bool CheckMoveLegality()
         return true;
     case 'r':
     case 'R':
-        if (fileFrom != fileTo)
-        {
-            if (rankFrom != rankTo) return false;       // no diagonal movement
-            if (fileFrom > fileTo)
-            {
-                for (int i = 1; i <= (fileFrom - fileTo - 1); i++)      // check each tile in the way
-                {
-                    if (*GetTileAddress(fileFrom-i, rankTo) != BLANK) return false;
-                }
-            }
-            else    // fileTo > fileFrom
-            {
-                for (int i = 1; i <= (fileTo - fileFrom - 1); i++)      // check each tile in the way
-                {
-                    if (*GetTileAddress(fileTo-i, rankTo) != BLANK) return false;
-                }
-            }
-        }
-        else    // rankFrom != rankTo
-        {
-            if (rankFrom > rankTo)
-            {
-                for (int i = 1; i <= (rankFrom - rankTo - 1); i++)      // check each tile in the way
-                {
-                    if (*GetTileAddress(fileTo, rankFrom-i) != BLANK) return false;
-                }
-            }
-            else    // rankTo > rankFrom
-            {
-                for (int i = 1; i <= (rankTo - rankFrom - 1); i++)      // check each tile in the way
-                {
-                    if (*GetTileAddress(fileTo, rankTo-i) != BLANK) return false;
-                }
-            }
-        }
-        return true;
+        return IsValidRookMovement(fileFrom, rankFrom, fileTo, rankTo);
     case 'n':
     case 'N':
         // easier to just pick the few legal moves and return false if isn't any of those
@@ -303,61 +268,13 @@ bool CheckMoveLegality()
         return false;
     case 'b':
     case 'B':
-        int tileCount;
-        if (rankTo > rankFrom) // up
-        {
-            tileCount = rankTo - rankFrom;
-            if      ((fileTo > fileFrom) && (tileCount == fileTo - fileFrom))
-            {
-                // up-right
-                for (int i = 1; i <= tileCount-1; i++)
-                {
-                    if (*GetTileAddress(fileTo-i, rankTo-i) != BLANK) return false;
-                }
-                
-            }
-            else if ((fileTo < fileFrom) && (tileCount == fileFrom - fileTo))
-            {
-                // up-left
-                for (int i = 1; i <= tileCount-1; i++)
-                {
-                    if (*GetTileAddress(fileTo+i, rankTo-i) != BLANK) return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else    // down
-        {
-            tileCount = rankFrom - rankTo;
-            if      ((fileTo > fileFrom) && (tileCount == fileTo - fileFrom))
-            {
-                // down-right
-                for (int i = 1; i <= tileCount-1; i++)
-                {
-                    if (*GetTileAddress(fileTo-i, rankTo+i) != BLANK) return false;
-                }
-            }
-            else if ((fileTo < fileFrom) && (tileCount == fileFrom - fileTo))
-            {
-                // down-left
-                for (int i = 1; i <= tileCount-1; i++)
-                {
-                    if (*GetTileAddress(fileTo+i, rankTo+i) != BLANK) return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return true;
+        return IsValidBishopMovement(fileFrom, rankFrom, fileTo, rankTo);
     case 'q':
     case 'Q':
-        // Check if is a legal queen move
-        return true;
+        if (IsValidBishopMovement(fileFrom, rankFrom, fileTo, rankTo) ||
+            IsValidRookMovement(fileFrom, rankFrom, fileTo, rankTo)) 
+                return true;
+        else    return true;
     case 'k':
     case 'K':
         // Check if is a legal king move
@@ -365,4 +282,99 @@ bool CheckMoveLegality()
     default:
         return false;
     }
+}
+
+bool IsValidRookMovement(int fileFrom, int rankFrom, int fileTo, int rankTo)
+{
+    if (fileFrom != fileTo)
+    {
+        if (rankFrom != rankTo) return false;       // no diagonal movement
+        if (fileFrom > fileTo)
+        {
+            for (int i = 1; i <= (fileFrom - fileTo - 1); i++)      // check each tile in the way
+            {
+                if (*GetTileAddress(fileFrom-i, rankTo) != BLANK) return false;
+            }
+        }
+        else    // fileTo > fileFrom
+        {
+            for (int i = 1; i <= (fileTo - fileFrom - 1); i++)      // check each tile in the way
+            {
+                if (*GetTileAddress(fileTo-i, rankTo) != BLANK) return false;
+            }
+        }
+    }
+    else    // rankFrom != rankTo
+    {
+        if (rankFrom > rankTo)
+        {
+            for (int i = 1; i <= (rankFrom - rankTo - 1); i++)      // check each tile in the way
+            {
+                if (*GetTileAddress(fileTo, rankFrom-i) != BLANK) return false;
+            }
+        }
+        else    // rankTo > rankFrom
+        {
+            for (int i = 1; i <= (rankTo - rankFrom - 1); i++)      // check each tile in the way
+            {
+                if (*GetTileAddress(fileTo, rankTo-i) != BLANK) return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool IsValidBishopMovement(int fileFrom, int rankFrom, int fileTo, int rankTo)
+{
+    int tileCount;
+    if (rankTo > rankFrom) // up
+    {
+        tileCount = rankTo - rankFrom;
+        if      ((fileTo > fileFrom) && (tileCount == fileTo - fileFrom))
+        {
+            // up-right
+            for (int i = 1; i <= tileCount-1; i++)
+            {
+                if (*GetTileAddress(fileTo-i, rankTo-i) != BLANK) return false;
+            }
+            
+        }
+        else if ((fileTo < fileFrom) && (tileCount == fileFrom - fileTo))
+        {
+            // up-left
+            for (int i = 1; i <= tileCount-1; i++)
+            {
+                if (*GetTileAddress(fileTo+i, rankTo-i) != BLANK) return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else    // down
+    {
+        tileCount = rankFrom - rankTo;
+        if      ((fileTo > fileFrom) && (tileCount == fileTo - fileFrom))
+        {
+            // down-right
+            for (int i = 1; i <= tileCount-1; i++)
+            {
+                if (*GetTileAddress(fileTo-i, rankTo+i) != BLANK) return false;
+            }
+        }
+        else if ((fileTo < fileFrom) && (tileCount == fileFrom - fileTo))
+        {
+            // down-left
+            for (int i = 1; i <= tileCount-1; i++)
+            {
+                if (*GetTileAddress(fileTo+i, rankTo+i) != BLANK) return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
 }
