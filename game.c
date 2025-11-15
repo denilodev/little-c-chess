@@ -91,6 +91,7 @@ bool CheckMoveLegality()
         if (rankFrom == '7')
         {
             if (rankTo < '5') return false;                     // double movement check
+            if (*GetTileAddress(fileTo, rankTo+1) != BLANK) return false;   // can't jump, darling
             isDoubleMovement = true;
         }
         else if ((rankFrom - 1) != rankTo) return false;        // just one step bro
@@ -163,6 +164,7 @@ bool CheckMoveLegality()
         if (rankFrom == '2')
         {
             if (rankTo > '4') return false;
+            if (*GetTileAddress(fileTo, rankTo-1) != BLANK) return false;
             isDoubleMovement = true;
         }
         else if ((rankFrom + 1) != rankTo) return false;
@@ -235,16 +237,38 @@ bool CheckMoveLegality()
     case 'R':
         if (fileFrom != fileTo)
         {
-            if (rankFrom != rankTo) return false;
+            if (rankFrom != rankTo) return false;       // no diagonal movement
             if (fileFrom > fileTo)
             {
-                for (int i = 1; i <= (fileFrom - fileTo - 1); i++)
+                for (int i = 1; i <= (fileFrom - fileTo - 1); i++)      // check each tile in the way
                 {
                     if (*GetTileAddress(fileFrom-i, rankTo) != BLANK) return false;
                 }
-
             }
-            
+            else    // fileTo > fileFrom
+            {
+                for (int i = 1; i <= (fileTo - fileFrom - 1); i++)      // check each tile in the way
+                {
+                    if (*GetTileAddress(fileTo-i, rankTo) != BLANK) return false;
+                }
+            }
+        }
+        else    // rankFrom != rankTo
+        {
+            if (rankFrom > rankTo)
+            {
+                for (int i = 1; i <= (rankFrom - rankTo - 1); i++)      // check each tile in the way
+                {
+                    if (*GetTileAddress(fileTo, rankFrom-i) != BLANK) return false;
+                }
+            }
+            else    // rankTo > rankFrom
+            {
+                for (int i = 1; i <= (rankTo - rankFrom - 1); i++)      // check each tile in the way
+                {
+                    if (*GetTileAddress(fileTo, rankTo-i) != BLANK) return false;
+                }
+            }
         }
         // Check if is a legal rook move
         return true;
