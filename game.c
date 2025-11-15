@@ -117,7 +117,7 @@ bool CheckMoveLegality()
                 else return false;                              // can't capture the nothingness
             }
         }
-        // else if (*tileTo != BLANK) return false;                // can't capture forward
+        else if (*tileTo != BLANK) return false;                // can't capture forward
         // PAWN PROMOTION
         if (rankTo == '1')
         {
@@ -190,7 +190,7 @@ bool CheckMoveLegality()
                 else return false;                              // can't capture the nothingness
             }
         }
-        // else if (*tileTo != BLANK) return false;                // can't capture forward
+        else if (*tileTo != BLANK) return false;                // can't capture forward
         // PAWN PROMOTION
         if (rankTo == '8')
         {
@@ -270,12 +270,39 @@ bool CheckMoveLegality()
                 }
             }
         }
-        // Check if is a legal rook move
         return true;
     case 'n':
     case 'N':
-        // Check if is a legal knight move
-        return true;
+        // easier to just pick the few legal moves and return false if isn't any of those
+        if (rankFrom+2 == rankTo)
+        {
+            if ((fileFrom+1 == fileTo) || (fileFrom-1 == fileTo))
+            {
+                return true;
+            }
+        }
+        else if (rankFrom+1 == rankTo)
+        {
+            if ((fileFrom+2 == fileTo) || (fileFrom-2 == fileTo))
+            {
+                return true;
+            }
+        }
+        else if (rankFrom-1 == rankTo)
+        {
+            if ((fileFrom+2 == fileTo) || (fileFrom-2 == fileTo))
+            {
+                return true;
+            }
+        }
+        else if (rankFrom-2 == rankTo)
+        {
+            if ((fileFrom+1 == fileTo) || (fileFrom-1 == fileTo))
+            {
+                return true;
+            }
+        }
+        return false;
     case 'b':
     case 'B':
         // Check if is a legal bishop move
