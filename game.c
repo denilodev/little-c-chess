@@ -7,6 +7,10 @@ char lastCapturedPiece;
 char winner;
 TILE whiteCanEnPassantHere;
 TILE blackCanEnPassantHere;
+bool whiteCanShortCastle;
+bool whiteCanLongCastle;
+bool blackCanShortCastle;
+bool blackCanLongCastle;
 
 void ResetBoard()
 {
@@ -50,6 +54,10 @@ void StartGame()
     isGameOver = false;
     lastCapturedPiece = BLANK;
     winner = BLANK;
+    whiteCanShortCastle = true;
+    whiteCanLongCastle = true;
+    blackCanShortCastle = true;
+    blackCanLongCastle = true;
 
 }
 
@@ -232,8 +240,21 @@ bool CheckMoveLegality()
         else                    blackCanEnPassantHere = NULL;
         return true;
     case 'r':
+        if (IsValidRookMovement(fileFrom, rankFrom, fileTo, rankTo))
+        {
+            if (fileFrom == 'h') blackCanShortCastle = false;
+            else if (fileFrom == 'a') blackCanLongCastle = false;
+            return true;
+        }
+        else return false;
     case 'R':
-        return IsValidRookMovement(fileFrom, rankFrom, fileTo, rankTo);
+        if (IsValidRookMovement(fileFrom, rankFrom, fileTo, rankTo))
+        {
+            if (fileFrom == 'h') whiteCanShortCastle = false;
+            else if (fileFrom == 'a') whiteCanLongCastle = false;
+            return true;
+        }
+        else return false;
     case 'n':
     case 'N':
         // easier to just pick the few legal moves and return false if isn't any of those
@@ -277,7 +298,66 @@ bool CheckMoveLegality()
         else    return true;
     case 'k':
     case 'K':
-        // Check if is a legal king move
+        if (rankFrom > rankTo && rankFrom-rankTo > 1) return false;
+        else if (rankFrom < rankTo && rankTo-rankFrom > 1) return false;
+        if (fileFrom != fileTo)
+        {
+            if (fileFrom == 'e')
+            {
+                if (fileTo == fileFrom+2)    // short castle
+                {
+                    if (!whiteCanShortCastle) return false;
+                    for (int i = 1; i <= (fileTo - fileFrom - 1); i++)
+                    {
+                        if (*GetTileAddress(fileTo-i, rankTo) != BLANK) return false;
+                    }
+                    MovePiece(GetTileAddress(fileTo+1, rankTo), GetTileAddress(fileTo-1, rankTo));
+                    if (*tileFrom == 'K')
+                    {
+                        whiteCanShortCastle = false;
+                        whiteCanLongCastle = false;
+                    }
+                    else
+                    {
+                        blackCanShortCastle = false;
+                        blackCanLongCastle = false;
+                    }
+                    return true;
+                }
+                else if (fileTo == fileFrom-3)  // long castle
+                {
+                    if (!whiteCanLongCastle) return false;
+                    for (int i = 1; i <= (fileTo - fileFrom - 1); i++)
+                    {
+                        if (*GetTileAddress(fileTo+i, rankTo) != BLANK) return false;
+                    }
+                    MovePiece(GetTileAddress(fileTo-1, rankTo), GetTileAddress(fileTo+1, rankTo));
+                    if (*tileFrom == 'K')
+                    {
+                        whiteCanShortCastle = false;
+                        whiteCanLongCastle = false;
+                    }
+                    else
+                    {
+                        blackCanShortCastle = false;
+                        blackCanLongCastle = false;
+                    }
+                    return true;
+                }
+            }
+            if (fileFrom > fileTo && fileFrom-fileTo > 1) return false;
+            else if (fileFrom < fileTo && fileTo-fileFrom > 1) return false;
+        }
+        if (*tileFrom == 'K')
+        {
+            whiteCanShortCastle = false;
+            whiteCanLongCastle = false;
+        }
+        else
+        {
+            blackCanShortCastle = false;
+            blackCanLongCastle = false;
+        }
         return true;
     default:
         return false;

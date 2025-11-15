@@ -18,6 +18,10 @@ extern char lastCapturedPiece;
 extern char winner;
 extern TILE whiteCanEnPassantHere;
 extern TILE blackCanEnPassantHere;
+extern bool whiteCanShortCastle;
+extern bool whiteCanLongCastle;
+extern bool blackCanShortCastle;
+extern bool blackCanLongCastle;
 
 void ResetBoard();
 void StartGame();
