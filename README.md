@@ -42,13 +42,16 @@ opponent's pieces threats to the king and to win you actually need to capture th
 Besides that the game is playable, although some bugs may appear.
 
 
-## 📚 Sources and inspirations
+## 📚 Credits, sources and inspirations
 
 This project was made on my own, so no tutorials were followed and no AI was used to write the code.
-I was having fun trying to recreate the unique movement patterns of each chess piece.
+It's a lot of fun trying to recreate the unique movement patterns of each chess piece.
+
 I did get some help to write this README file, though:
 - [Banesullivan README guide and template](https://github.com/banesullivan/README)
 - [Alena Silverbush blog about using images and gifs in README files](https://medium.com/@alenanikulina0/make-your-readme-better-with-images-and-gifs-b141bd54bff3)
+
+The terminal was recorded with [PowerSession](https://github.com/Watfaq/PowerSession-rs) then transformed into GIF using [agg](https://github.com/asciinema/agg).
 
 ## ✍️ What do I learned from this project
 
