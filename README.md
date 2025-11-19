@@ -22,12 +22,13 @@ Only works in Windows, but if you use Linux I believe you don't even need this s
 
 ## 🏁 How to play
 
-Usually in terminal chess games the algebraic notation is used to make the moves, but this revears to be
-more challenging that I expected (and beyond the scope of this little project), so a easier way to get the
-movement is choosed, using the tiles in the grid in a file-rank (or column-row) notation.
+Usually in terminal chess games the algebraic notation is used to make the moves, but this reveals to be
+more challenging than I expected (and beyond the scope of this little project), so a easier way to get the
+chosen movement is by using the grid tiles in a file-rank (or column-row) notation.
 
-So to make a move, you type the tile where the piece that you want to move is and the tile where it goes,
-like "c2c4" (that translates to the algebraic notation "e4"), a popular first move.
+So to make a move, you type the tile where the moving piece are now and the tile where it goes,
+like "c2c4" (that translates to the algebraic notation "e4"), a popular first move that get the pawn in c2
+tile and moves it to the c4 tile.
 
 >![c2c4 move](https://github.com/user-attachments/assets/289216c6-e1a4-4c28-9869-cf33d399e11d)
 > White pieces are uppercase and Black pieces are lowercase (inspired by Forsyth-Edwards Notation).
